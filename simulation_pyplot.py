@@ -12,16 +12,19 @@ from covid import *
 '''
 dim = 2
 S = 140 #(blue)
-I = 10 #(red)
+I = 50 #(red)
 R = 0 #(green)
-infection_distance = 0.01
+infection_distance = 0.005
 motion_constant = 0.05
-recovery_constant = 50
+
+recovery_constant = 10
+death_constant = 5
+incubation = 20
 
 N = S + I + R
 
 
-my_city = create_mycity(S, I, R, infection_distance, motion_constant, recovery_constant)
+my_city = create_mycity(S, I, R, infection_distance, motion_constant, recovery_constant, incubation, death_constant)
 my_city.create_population(dim)
 n_S = [S]
 n_I = [I]
@@ -47,19 +50,25 @@ def update(frame_number):
     my_city.check_interaction()#Make people interact
     my_city.find_infection()#Check how many people are infected
     my_city.move_around()
-    my_city.recover_people()
+    my_city.remove_people()
     n_S.append(my_city.n_S)
     n_I.append(my_city.n_I)
     n_R.append(my_city.n_R)
-    
+
     # Update the scatter collection, with the new colors, sizes and positions.
-    color =['b', 'r', 'g']
+    color =['b', 'r', 'g', 'k']
 
     scat.set_color([color[person.flag] for person in my_city.people])
     scat.set_offsets([person.position for person in my_city.people])
 
 
+
 animation = FuncAnimation(fig, update, frames=500, repeat=False, interval=500)
 plt.show()
 
-
+fig2 = plt.figure(figsize=(7, 7))
+plt.plot(n_S, 'b')
+plt.plot(n_I, 'r')
+plt.plot(n_R, 'g')
+# p
+plt.show()

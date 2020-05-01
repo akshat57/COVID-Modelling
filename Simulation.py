@@ -53,9 +53,9 @@ class create_mycity:
         self.I = I
         self.R = R
         self.population = S + I + R
-        # self.n_S = S
-        # self.n_I = I
-        # self.n_R = R
+        self.n_S = S
+        self.n_I = I
+        self.n_R = R
         self.infection_distance = infection_distance
         self.motion_constant = motion_constant
         self.recovery_time = recovery_time
@@ -77,7 +77,6 @@ class create_mycity:
         for i in range(self.population-1):
             for j in range(i+1, self.population):
                 if self.people_distance(i, j) < self.infection_distance and self.is_infected(i, j)== True:
-                    print('infecting')
                     self.infect_people(i, j)
 
     def people_distance(self, i, j):
@@ -106,9 +105,9 @@ class create_mycity:
 
 ################ FIND HOW MANY PEOPLE ARE INFECTED ##############
     def find_infection(self):
-        # self.n_S = 0
-        # self.n_I = 0
-        # self.n_R = 0
+        self.n_S = 0
+        self.n_I = 0
+        self.n_R = 0
         S = I = R = 0
         for i in range(self.population):
             if self.people[i].flag == 0:
@@ -117,7 +116,7 @@ class create_mycity:
                 I += 1
             else:
                 R += 1
-        return (S, I, R)
+        # return (S, I, R)
 
 ################### MAKE PEOPLE MOVE AROUND #############
     def move_around(self):
